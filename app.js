@@ -11,7 +11,7 @@ fs.readFile("./data/map.osm", "utf8", function (err, xml) {
     <header>
         <meta charset="UTF-8">
         <title>osm-to-aframe</title>
-        <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+        <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
     </header>
     <body>
     <a-scene></a-scene>
