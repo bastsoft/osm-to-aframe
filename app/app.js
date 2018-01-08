@@ -81,13 +81,8 @@ const createWorld = function (XMLDataJson, sceneEl) {
     sceneEl.appendChild(createElem(elementJson));
 };
 
-const runApp = function () {
+const runApp = function (lat, lon, radius) {
     (AFRAME.aframeCore || AFRAME).registerComponent('mgamepad-controls', mgamepadControls);
-
-    //начальнае координаты
-    const lat = 55.15556; //latitude широта
-    const lon = 61.40892; //longitude Долгота
-    const radius = 200; //в метрах
 
     world.getData(lat, lon, radius).then(function (XMLDataJson) {
         const sceneEl = document.querySelector('a-scene');

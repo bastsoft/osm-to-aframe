@@ -25,7 +25,8 @@ class World {
     }
 
     getData(lat, lon, radius) {
-        const mainUrl = "http://www.openstreetmap.org/api/0.6/map?bbox=";
+        const urlResurse = "https://blooming-beach-75686.herokuapp.com";//http://www.openstreetmap.org
+        const mainUrl = urlResurse + "/api/0.6/map?bbox=";
         const point = mercator.ll2m(lon, lat);
         const point1 = mercator.m2ll(point.x - radius, point.y - radius);
         const point2 = mercator.m2ll(point.x + radius, point.y + radius);
@@ -36,7 +37,9 @@ class World {
             top: point2.lat
         };
 
-        return fetch(mainUrl + [bbox.left, bbox.bottom, bbox.right, bbox.top].join(","))
+        return fetch(mainUrl + [bbox.left, bbox.bottom, bbox.right, bbox.top].join(","), {
+            mode: "cors"
+        })
             .then(response => response.text())
             .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
             .then(str => (new X2JS()).xml2json(str))
