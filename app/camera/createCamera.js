@@ -7,8 +7,7 @@ const createCamera = function (world) {
             id: "mainUser",
             "look-controls": "",
             "mouse-cursor": "",
-            "wasd-controls": "",
-            "mgamepad-controls": ""
+            "mwasd-controls": {acceleration: 300}
         },
         [
             ['a-entity', {

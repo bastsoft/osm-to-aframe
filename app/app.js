@@ -2,7 +2,7 @@ import {calculateLengthSegment} from './math.js';
 import World from './world.js';
 import createBuildings from './buildings.js';
 import createCamera from './camera/createCamera.js';
-import mgamepadControls from "./camera/mgamepad-controls.js";
+
 
 const world = new World();
 
@@ -82,8 +82,6 @@ const createWorld = function (XMLDataJson, sceneEl) {
 };
 
 const runApp = function (lat, lon, radius) {
-    (AFRAME.aframeCore || AFRAME).registerComponent('mgamepad-controls', mgamepadControls);
-
     world.getData(lat, lon, radius).then(function (XMLDataJson) {
         const sceneEl = document.querySelector('a-scene');
         createWorld(XMLDataJson, sceneEl);
