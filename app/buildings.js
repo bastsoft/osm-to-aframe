@@ -3,16 +3,17 @@ import {calculateAngleBetweenTwoStraight, calculateLengthSegment, calculateMidPo
 const buildingByWay = function (way, world) {
     const elem = [];
     const currentNd = way.nd;
-    let height = 4;
-
     const tags = way.tag || {};
+    let levels = 1;
 
     Object.keys(tags).forEach(function (key) {
         const tag = tags[key] || {};
         if (tag._k === "building:levels") {
-            height = height * Number(tag._v);
+            levels = Number(tag._v);
         }
     });
+
+    let height = 4 * levels;
 
     let lastPoint = null;
     Object.keys(currentNd).forEach(function (index) {
@@ -29,12 +30,15 @@ const buildingByWay = function (way, world) {
                 {X: Number(m1.x + (trueWidth / 2)), Y: Number(m1.y)}
             );
 
+            const countWindow = trueWidth / 12;
+
             elem.push(['a-plane', {
                 position: [m1.x, height / 2, m1.y].join(" "),
                 rotation: "0 " + ang + " 0",
                 width: trueWidth,
                 height: height,
-                color: "orange"
+                color: "orange",
+                material: "src: #window1; repeat: " + countWindow + " " + levels
             }]);
 
             elem.push(['a-plane', {
@@ -42,7 +46,8 @@ const buildingByWay = function (way, world) {
                 rotation: "0 " + (ang + 180) + " 0",
                 width: trueWidth,
                 height: height,
-                color: "orange"
+                color: "orange",
+                material: "src: #window1; repeat: " + countWindow + " " + levels
             }]);
         }
 
