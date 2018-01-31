@@ -3,22 +3,14 @@ import {calculateAngleBetweenTwoStraight, calculateLengthSegment, calculateMidPo
 const buildingByWay = function (way, world) {
     const elem = [];
     const currentNd = way.nd;
-    const tags = way.tag || {};
-    let levels = 1;
-
-    Object.keys(tags).forEach(function (key) {
-        const tag = tags[key] || {};
-        if (tag._k === "building:levels") {
-            levels = Number(tag._v);
-        }
-    });
+    let levels = Number(way.tag["building:levels"]);
 
     let height = 4 * levels;
 
     let lastPoint = null;
     Object.keys(currentNd).forEach(function (index) {
         const ref = currentNd[index]._ref;
-        const currentPoint = world.convertPoint(world.nodesObj[ref]);
+        const currentPoint = world.nodesObj[ref].point;
 
         if (lastPoint) {
             const trueWidth = calculateLengthSegment(currentPoint.x, currentPoint.y, lastPoint.x, lastPoint.y);
@@ -59,17 +51,32 @@ const buildingByWay = function (way, world) {
 
 const createBuildings = function (world) {
     const elem = [];
+    Object.keys(world.relation).forEach(function (relationKey) {
+        const relation = world.relation[relationKey];
 
+        console.log(relation.tag);
+    });
+
+    console.log("way");
+    //обработка ways
     Object.keys(world.ways).forEach(function (wayKey) {
-        const tags = world.ways[wayKey].tag || {};
+        let way = world.ways[wayKey];
+        const tag = way.tag;
 
-        Object.keys(tags).forEach(function (key) {
-            const tag = tags[key] || {};
-            if (tag._k === "building") {
-                //tag.v ===  назначение здание может быть "yes" "hospital" "commercial"  и тп
-                elem.push(buildingByWay(world.ways[wayKey], world));
-            }
-        });
+
+        if (tag.building) {
+            //tag.v ===  назначение здание может быть "yes" "hospital" "commercial"  и тп
+            elem.push(buildingByWay(way, world));
+            way = null;
+        }
+
+        if (way && tag.highway === "footway") {
+            //creationFootWay(way, world);
+        }
+
+        if (way) {
+            console.log(way.tag);
+        }
     });
 
     return ['a-entity', {}, elem];

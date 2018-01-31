@@ -21,7 +21,7 @@ const createWorld = function (XMLDataJson, sceneEl) {
         const elem = [];
 
         Object.keys(world.nodesObj).forEach(function (id) {
-            const currentPoint = world.convertPoint(world.nodesObj[id]);
+            const currentPoint = world.nodesObj[id].point;
 
             elem.push(createFlatPoint(currentPoint.x, currentPoint.y));
         });
@@ -85,7 +85,7 @@ const runApp = function (lat, lon, radius) {
     world.getData(lat, lon, radius).then(function (XMLDataJson) {
         const sceneEl = document.querySelector('a-scene');
         createWorld(XMLDataJson, sceneEl);
-    }).catch(alert);
+    });
 };
 
 export {runApp as default};
