@@ -8,11 +8,14 @@ const buildingByWay = function (way, world) {
     let height = 4 * levels;
 
     let lastPoint = null;
+    const verticesArrayRoof = [];
     Object.keys(currentNd).forEach(function (index) {
         const ref = currentNd[index]._ref;
         const currentPoint = world.nodesObj[ref].point;
 
+
         if (lastPoint) {
+            verticesArrayRoof.push([currentPoint.x, height, currentPoint.y].join(" "));
             const trueWidth = calculateLengthSegment(currentPoint.x, currentPoint.y, lastPoint.x, lastPoint.y);
             const m1 = calculateMidPoint(currentPoint.x, lastPoint.x, currentPoint.y, lastPoint.y);
 
@@ -23,28 +26,24 @@ const buildingByWay = function (way, world) {
             );
 
             const countWindow = trueWidth / 12;
-
+            const vertices = [m1.x, height / 2, m1.y].join(" ");
             elem.push(['a-plane', {
-                position: [m1.x, height / 2, m1.y].join(" "),
+                position: vertices,
                 rotation: "0 " + ang + " 0",
                 width: trueWidth,
                 height: height,
                 color: "orange",
-                material: "src: #window1; repeat: " + countWindow + " " + levels
-            }]);
-
-            elem.push(['a-plane', {
-                position: [m1.x, height / 2, m1.y].join(" "),
-                rotation: "0 " + (ang + 180) + " 0",
-                width: trueWidth,
-                height: height,
-                color: "orange",
-                material: "src: #window1; repeat: " + countWindow + " " + levels
+                material: "src: #window1; repeat: " + countWindow + " " + levels + "; side: double"
             }]);
         }
 
         lastPoint = currentPoint;
     });
+
+    elem.push(['a-entity', {
+        geometry: "primitive: roof; vertices: " + verticesArrayRoof.join(", "),
+        material: 'side:double'
+    }]);
 
     return ['a-entity', {}, elem];
 };
@@ -71,27 +70,27 @@ const creationHighway = function (way, world) {
             let height = 1;
             let color = "red";
 
-            if(way.tag.highway === "footway"){
+            if (way.tag.highway === "footway") {
                 height = 4;
                 color = "orange"
             }
 
-            if(way.tag.highway === "service"){
+            if (way.tag.highway === "service") {
                 height = 8;
                 color = "gray"
             }
 
-            if(way.tag.highway === "residential"){
+            if (way.tag.highway === "residential") {
                 height = 10;
                 color = "silver"
             }
 
-            if(way.tag.highway === "secondary"){
+            if (way.tag.highway === "secondary") {
                 height = 12;
                 color = "gainsboro"
             }
 
-            if(color === "red"){
+            if (color === "red") {
                 console.log(way.tag.highway);
             }
 

@@ -6,17 +6,18 @@
     <script src="https://rawcdn.githack.com/abdmob/x2js/master/xml2json.min.js"></script>
     <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
     <script src="./app/controls/mwasd-controls.js"></script>
+    <script src="./app/roof.js"></script>
     <script type="module">
         import app from "./app/app.js";
 
         const ank = window.location.href.split("#?")[1];
-        if(ank){
+        if (ank) {
             const latlon = ank.split("&");
             const lat = latlon[0].split("=")[1];
             const lon = latlon[1].split("=")[1];
 
             app(lat, lon, 200);
-        }else{
+        } else {
             app(55.15556, 61.40892, 200);
         }
     </script>
