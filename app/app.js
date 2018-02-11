@@ -1,6 +1,6 @@
 import {calculateLengthSegment} from './math.js';
 import World from './world.js';
-import createBuildings from './buildings.js';
+import processingWays from './create3dPrimitiveOSM/create3dPrimitiveOSM.js';
 import createCamera from './camera/createCamera.js';
 
 
@@ -67,7 +67,7 @@ const createWorld = function (XMLDataJson, sceneEl) {
         createCamera(world),
         //showAllNode(),
         showBounds(),
-        createBuildings(world)
+        processingWays(world)
     ]];
 
     sceneEl.appendChild(createElem(elementJson));

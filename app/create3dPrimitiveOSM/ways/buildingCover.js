@@ -1,21 +1,24 @@
-AFRAME.registerGeometry('roof', {
+AFRAME.registerGeometry('buildingCover', {
     schema: {
         vertices: {
             default: [],
+        },
+        height: {
+            default: 0
         }
     },
     init: function (data) {
         const shape = new THREE.Shape();
 
-        const vertices = data.vertices.map(function (vertex, index) {
+        data.vertices.forEach(function (vertex, index) {
             const points = vertex.split(' ').map(function (x) {
                 return Number(x);
             });
 
             if (index === 0) {
-                shape.moveTo(points[0], points[2]);
+                shape.moveTo(points[0], points[1]);
             } else {
-                shape.lineTo(points[0], points[2]);
+                shape.lineTo(points[0], points[1]);
             }
 
             return points;
@@ -24,7 +27,7 @@ AFRAME.registerGeometry('roof', {
         const geometry = new THREE.ShapeGeometry(shape);
 
         geometry.vertices = geometry.vertices.map(
-            (vertex, i) => new THREE.Vector3(vertex.x, vertices[i][1], vertex.y)
+            vertex => new THREE.Vector3(vertex.x, Number(data.height), vertex.y)
         );
 
         this.geometry = geometry;
