@@ -9,21 +9,17 @@ const world = new World();
 const createWorld = function (XMLDataJson, sceneEl) {
     world.setData(XMLDataJson);
 
-    const createFlatPoint = function (x, y, color) {
-        return ['a-dodecahedron', {
-            position: [x, 0, y].join(" "),
-            color: color || "#CCC",
-            radius: "1"
-        }];
-    };
-
     const showAllNode = function () {
         const elem = [];
 
         Object.keys(world.nodesObj).forEach(function (id) {
             const currentPoint = world.nodesObj[id].point;
 
-            elem.push(createFlatPoint(currentPoint.x, currentPoint.y));
+            elem.push(['a-dodecahedron', {
+                position: [currentPoint.x, 0, currentPoint.y].join(" "),
+                color: "#CCC",
+                radius: "0.1"
+            }]);
         });
 
         return ['a-entity', {}, elem];
@@ -40,17 +36,13 @@ const createWorld = function (XMLDataJson, sceneEl) {
             minPoint.x, minPoint.y, minPoint.x, maxPoint.y
         );
 
-        return ['a-entity', {}, [
-            createFlatPoint(minPoint.x, minPoint.y),
-            createFlatPoint(maxPoint.x, maxPoint.y),
-            ['a-plane', {
-                position: [world.midpointBounds.x, 0, world.midpointBounds.y],
-                rotation: "-90 0 0",
-                width: widthBounds,
-                height: heightBounds,
-                color: "#7BC8A4"
-            }]
-        ]];
+        return ['a-plane', {
+            position: [world.midpointBounds.x, 0, world.midpointBounds.y],
+            rotation: "-90 0 0",
+            width: widthBounds,
+            height: heightBounds,
+            color: "#7BC8A4"
+        }];
     };
 
     const createElem = function (arrElem) {
@@ -71,7 +63,7 @@ const createWorld = function (XMLDataJson, sceneEl) {
     };
 
     const elementJson = ['a-entity', {}, [
-        ['a-sky', {color: "#87CEFA"}],
+        ['a-sky', {src: "#sky"}],
         createCamera(world),
         //showAllNode(),
         showBounds(),

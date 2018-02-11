@@ -69,25 +69,30 @@ const creationHighway = function (way, world) {
 
             let height = 1;
             let color = "red";
+            let zindex = 0.01;
 
             if (way.tag.highway === "footway") {
                 height = 4;
-                color = "orange"
+                color = "orange";
+                zindex = 0.02;
             }
 
             if (way.tag.highway === "service") {
                 height = 8;
-                color = "gray"
+                color = "gray";
+                zindex = 0.03;
             }
 
             if (way.tag.highway === "residential") {
                 height = 10;
-                color = "silver"
+                color = "silver";
+                zindex = 0.04;
             }
 
             if (way.tag.highway === "secondary") {
                 height = 12;
-                color = "gainsboro"
+                color = "gainsboro";
+                zindex = 0.05;
             }
 
             if (color === "red") {
@@ -96,7 +101,7 @@ const creationHighway = function (way, world) {
 
 
             elem.push(['a-plane', {
-                position: [m1.x, 0.01, m1.y].join(" "),
+                position: [m1.x, zindex, m1.y].join(" "),
                 rotation: "-90 " + ang + " 0",
                 width: trueWidth,
                 height: height,
