@@ -6,8 +6,8 @@ const creationHighway = function (way, world) {
 
     let lastPoint = null;
     Object.keys(currentNd).forEach(function (index) {
-        const ref = currentNd[index]._ref;
-        const currentPoint = world.nodesObj[ref].point;
+        const ref = currentNd[index].ref;
+        const currentPoint = world.node[ref].point;
 
         if (lastPoint) {
             const trueWidth = calculateLengthSegment(currentPoint.x, currentPoint.y, lastPoint.x, lastPoint.y);

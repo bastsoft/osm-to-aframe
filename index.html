@@ -11,10 +11,27 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 </head>
 <body>
+<form action="map.html#">
+    <fieldset>
+        <legend>Data options</legend>
+        <label>latitude <input id="latInput" name="lat"></label>
+        <label>longitude <input id="lonInput" name="lon"></label>
+        <label>radius <input type="number" id="radiusInput" value="200" name="radius"></label>
+    </fieldset>
+    <p><input type="submit"></p>
+</form>
 <div id="mapid" style="width: 600px; height: 400px;"></div>
-<script>
+<form onsubmit="onGetData();return false">
+    <input type="submit" value="Получить данные">
+</form>
+
+<script type="module">
+    import {getBbox, getData} from "./app/app.js";
+
     const lat = 55.15556; //latitude широта
     const lon = 61.40892; //longitude Долгота
     const mymap = L.map('mapid').setView([lat, lon], 20);
@@ -27,13 +44,31 @@
         id: 'mapbox.streets'
     }).addTo(mymap);
 
+    L.Control.geocoder().addTo(mymap);
+
     function onMapClick(e) {
-        const url = "map.html#?lat=" + e.latlng.lat + "&" + "lon=" + e.latlng.lng;
+        const lon = e.latlng.lng;
+        const lat = e.latlng.lat;
+        const radius = document.getElementById('radiusInput').value;
+        const bbox = getBbox(lon, lat, radius);
+        const latlngs = [[bbox.topLat, bbox.leftLon], [bbox.topLat, bbox.rightLon], [bbox.bottomLat, bbox.rightLon], [bbox.bottomLat, bbox.leftLon]];
+        const polygon = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
 
-        console.log(url);
+        mymap.fitBounds(polygon.getBounds());
 
-        window.open(url)
+        document.getElementById('latInput').value = lat;
+        document.getElementById('lonInput').value = lon;
     }
+
+    window.onGetData = () => {
+        const lon = document.getElementById('lonInput').value;
+        const lat = document.getElementById('latInput').value;
+        const radius = document.getElementById('radiusInput').value;
+
+        getData(lat, lon, radius).then(function (json) {
+            console.log(json);
+        });
+    };
 
     mymap.on('click', onMapClick);
 </script>

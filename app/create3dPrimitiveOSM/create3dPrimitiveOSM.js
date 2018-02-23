@@ -5,8 +5,8 @@ const processingWays = function (world) {
     const elem = [];
 
     //обработка ways
-    Object.keys(world.ways).forEach(function (wayKey) {
-        let way = world.ways[wayKey];
+    Object.keys(world.way).forEach(function (wayKey) {
+        let way = world.way[wayKey];
         const tag = (way.tag || {});
 
         if (!way.tag) {

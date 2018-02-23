@@ -3,23 +3,13 @@
 <header>
     <meta charset="UTF-8">
     <title>osm-to-aframe-map</title>
-    <script src="https://rawcdn.githack.com/abdmob/x2js/master/xml2json.min.js"></script>
     <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
     <script src="./app/controls/mwasd-controls.js"></script>
-    <script src="app/create3dPrimitiveOSM/ways/buildingCover.js"></script>
+    <script src="./app/create3dPrimitiveOSM/ways/buildingCover.js"></script>
     <script type="module">
-        import app from "./app/app.js";
+        import {init} from "./app/app.js";
 
-        const ank = window.location.href.split("#?")[1];
-        if (ank) {
-            const latlon = ank.split("&");
-            const lat = latlon[0].split("=")[1];
-            const lon = latlon[1].split("=")[1];
-
-            app(lat, lon, 200);
-        } else {
-            app(55.15556, 61.40892, 500);
-        }
+        init();
     </script>
 </header>
 <body>

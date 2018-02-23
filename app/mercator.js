@@ -62,4 +62,21 @@ const Conv = ({
     }
 });
 
-export {Conv as default};
+const getBbox = function (lon, lat, radius) {
+    radius = Number(radius);
+    const point = Conv.ll2m(lon, lat);
+    const point1 = Conv.m2ll(point.x - radius, point.y - radius);
+    const point2 = Conv.m2ll(point.x + radius, point.y + radius);
+
+    return {
+        leftLon: point1.lon,
+        bottomLat: point1.lat,
+        rightLon: point2.lon,
+        topLat: point2.lat
+    };
+};
+
+export {
+    Conv as converterMercator,
+    getBbox
+};
