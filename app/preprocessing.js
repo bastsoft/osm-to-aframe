@@ -2,9 +2,7 @@ import {calculateMidPoint} from "./math.js";
 import {converterMercator} from "./mercator.js";
 
 
-const preprocessing = function (jsonText) {
-    const json = JSON.parse(jsonText);
-
+const preprocessing = function (json) {
     json.minPointBounds = converterMercator.ll2m(json.bounds[0][1], json.bounds[0][0]);
     json.maxPointBounds = converterMercator.ll2m(json.bounds[1][1], json.bounds[1][0]);
     json.midpointBounds = calculateMidPoint(

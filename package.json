@@ -1,0 +1,26 @@
+{
+  "name": "osm-to-aframe",
+  "version": "1.0.0",
+  "description": "## use",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bastsoft/osm-to-aframe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bastsoft/osm-to-aframe/issues"
+  },
+  "homepage": "https://github.com/bastsoft/osm-to-aframe#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^2.0.8"
+  }
+}
