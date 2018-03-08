@@ -1,10 +1,31 @@
 import preprocessing from './preprocessing.js';
 import createWorld from './createWorld.js';
-import {getBbox} from "./mercator.js";
+import {getBbox, converterMercator} from "./mercator.js";
+import {calculateMidPoint} from "./math.js";
 
 
 const run = function (lat, lon, radius) {
-    getData(lat, lon, radius).then(json => createWorld(json, document.querySelector('a-scene')));
+    getData(lat, lon, radius)
+        .then((json) => {
+            json.minPointBounds = converterMercator.ll2m(json.bounds[0][1], json.bounds[0][0]);
+            json.maxPointBounds = converterMercator.ll2m(json.bounds[1][1], json.bounds[1][0]);
+            json.midPointBounds = calculateMidPoint(
+                json.maxPointBounds.x,
+                json.minPointBounds.x,
+                json.maxPointBounds.y,
+                json.minPointBounds.y
+            );
+
+            const point = converterMercator.ll2m(lon, lat);
+
+            json.freeMoveArea = [
+                [point.x - radius / 2, point.y - radius / 2],
+                [point.x - radius / 2, point.y - radius / 2]
+            ];
+
+            return preprocessing(json, json.midPointBounds);
+        })
+        .then(json => createWorld(json, document.querySelector('a-scene')));
 };
 
 const getData = function (lat, lon, radius) {
@@ -16,8 +37,7 @@ const getData = function (lat, lon, radius) {
         getDataFunction = _getDataFromHeroku(lat, lon, radius);
     }
 
-    return getDataFunction.then(response => response.json())
-        .then(str => preprocessing(str));
+    return getDataFunction.then(response => response.json());
 };
 
 const _getDataFromHeroku = function (lat, lon, radius) {

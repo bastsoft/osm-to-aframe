@@ -31,7 +31,7 @@ const createWorld = function (json, sceneEl) {
         );
 
         return ['a-plane', {
-            position: [json.midpointBounds.x, 0, json.midpointBounds.y],
+            position: [json.midPointBounds.x, 0, json.midPointBounds.y],
             rotation: "-90 0 0",
             width: widthBounds,
             height: heightBounds,
