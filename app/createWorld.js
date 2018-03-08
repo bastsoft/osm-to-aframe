@@ -1,4 +1,4 @@
-import processingWays from "./create3dPrimitiveOSM/create3dPrimitiveOSM.js";
+import {processingWays, processingRelation} from "./create3dPrimitiveOSM/create3dPrimitiveOSM.js";
 import {calculateLengthSegment} from "./math.js";
 import createCamera from "./camera/createCamera.js";
 
@@ -61,7 +61,8 @@ const createWorld = function (json, sceneEl) {
         createCamera(json),
         //showAllNode(),
         showBounds(),
-        processingWays(json)
+        processingWays(json),
+        processingRelation(json)
     ]];
 
     sceneEl.appendChild(createElem(elementJson));

@@ -14,5 +14,6 @@ if (latlon.length > 2) {
 if (lat && lon && radius) {
     run(Number(lat), Number(lon), Number(radius));
 } else {
-    run(55.15556, 61.40892, 200);
+    run(55.15556, 61.40892, 200); //- мой двор
+    //run(55.75547233180139, 37.618315787003674, 200);
 }

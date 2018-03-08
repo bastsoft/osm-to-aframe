@@ -30,9 +30,14 @@ const run = function (lat, lon, radius) {
 
 const getData = function (lat, lon, radius) {
     let getDataFunction = null;
+    const stubData = {
+        "55.15556-61.40892-200": 'stub/data.json',
+        "55.75547233180139-37.618315787003674-200": 'stub/dataMoscowRedSquare.json'
+    };
+    const keyForStub = lat + "-" + lon + "-" + radius;
 
-    if (lat === 55.15556 && lon === 61.40892 && radius === 200) {
-        getDataFunction = fetch('stub/data.json')
+    if (stubData[keyForStub]) {
+        getDataFunction = fetch(stubData[keyForStub])
     } else {
         getDataFunction = _getDataFromHeroku(lat, lon, radius);
     }

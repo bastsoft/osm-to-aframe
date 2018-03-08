@@ -1,17 +1,12 @@
-import buildingByWay from './ways/building.js';
+import {buildingByWay, buildingByRelation} from './ways/building.js';
 import creationHighway from './ways/highway.js';
 
 const processingWays = function (world) {
     const elem = [];
 
-    //обработка ways
     Object.keys(world.way).forEach(function (wayKey) {
         let way = world.way[wayKey];
         const tag = (way.tag || {});
-
-        if (!way.tag) {
-            console.log("not Tag: ", way);
-        }
 
         if (tag.building) {
             elem.push(buildingByWay(way, world));
@@ -24,8 +19,24 @@ const processingWays = function (world) {
         }
     });
 
-    return ['a-entity', {}, elem];
+    return ['a-entity', {class: "way"}, elem];
 };
 
-export default processingWays;
+const processingRelation = function (world) {
+    const elem = [];
+
+    Object.keys(world.relation).forEach(function (relationKey) {
+        let relation = world.relation[relationKey];
+        const tag = (relation.tag || {});
+
+        if (tag.building || tag.type === "building") {
+            elem.push(buildingByRelation(relation, world));
+            relation = null;
+        }
+    });
+
+    return ['a-entity', {class: "relation"}, elem];
+};
+
+export {processingWays, processingRelation};
 
