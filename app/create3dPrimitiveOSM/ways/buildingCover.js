@@ -1,33 +1,19 @@
 AFRAME.registerGeometry('buildingCover', {
     schema: {
-        vertices: {
-            default: [],
-        },
-        height: {
-            default: 0
-        }
+        vertices: {default: []},
+        height: {default: 0}
     },
     init: function (data) {
-        const shape = new THREE.Shape();
+        const pts = data.vertices.map(function (vertex) {
+            const points = vertex.split(' ').map(x => Number(x));
 
-        data.vertices.forEach(function (vertex, index) {
-            const points = vertex.split(' ').map(function (x) {
-                return Number(x);
-            });
-
-            if (index === 0) {
-                shape.moveTo(points[0], points[1]);
-            } else {
-                shape.lineTo(points[0], points[1]);
-            }
-
-            return points;
+            return new THREE.Vector2(points[0], points[1]);
         });
-
+        const shape = new THREE.Shape(pts);
         const geometry = new THREE.ShapeGeometry(shape);
 
         geometry.vertices = geometry.vertices.map(
-            vertex => new THREE.Vector3(vertex.x, Number(data.height), vertex.y)
+            v => new THREE.Vector3(v.x, Number(data.height), v.y)
         );
 
         this.geometry = geometry;

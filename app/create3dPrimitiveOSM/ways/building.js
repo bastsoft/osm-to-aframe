@@ -49,6 +49,10 @@ const _building = function (way, world, relationTag = {}) {
 
     createBuildingCover(elem, verticesArrayRoof, height, minHeight);
 
+    // elem.push(['a-entity', {
+    //     building: "vertices: " + verticesArrayRoof.join(", ") + "; height: " + (height + minHeight)
+    // }]);
+
     return ['a-entity', {}, elem];
 };
 
@@ -57,13 +61,13 @@ const createBuildingCover = function (elem, verticesArrayRoof, height, minHeight
     if (verticesArrayRoof.length > 2) {
         elem.push(['a-entity', {
             geometry: "primitive: buildingCover; vertices: " + verticesArrayRoof.join(", ") + "; height: " + (height + minHeight),
-            material: 'side:double'
+            material: 'color:orange; side:double'
         }]);
 
         if (minHeight !== 0) {
             elem.push(['a-entity', {
                 geometry: "primitive: buildingCover; vertices: " + verticesArrayRoof.join(", ") + "; height: " + minHeight,
-                material: 'side:double'
+                material: 'color:orange; side:double'
             }]);
         }
     }
